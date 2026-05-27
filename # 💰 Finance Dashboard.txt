@@ -1,0 +1,124 @@
+# 💰 Finance Dashboard
+
+Um dashboard financeiro moderno desenvolvido com HTML, CSS e JavaScript puro para controle de receitas, despesas e análise financeira visual.
+
+---
+
+# 🚀 Funcionalidades
+
+* Cadastro de receitas e despesas
+* Edição de transações
+* Remoção de transações
+* Filtros por tipo e mês
+* Resumo financeiro automático
+* Exportação de dados em CSV
+* Persistência de dados com LocalStorage
+* Dashboard responsivo
+* Gráficos financeiros dinâmicos
+
+---
+
+# 📊 Gráficos Disponíveis
+
+### Doughnut Chart
+
+Comparação entre receitas e despesas.
+
+### Pie Chart
+
+Distribuição de gastos por categoria.
+
+### Line Chart
+
+Evolução do saldo acumulado.
+
+### Stacked Bar Chart
+
+Receitas e despesas distribuídas por mês.
+
+---
+
+# 🛠 Tecnologias Utilizadas
+
+* HTML5
+* CSS3
+* JavaScript (Vanilla JS)
+* Chart.js
+
+---
+
+# 📂 Estrutura do Projeto
+
+```bash
+finance-dashboard/
+│
+├── index.html
+├── style.css
+├── app.js
+└── README.md
+```
+
+---
+
+# ▶️ Como Executar o Projeto
+
+1. Clone este repositório:
+
+```bash
+git clone https://github.com/seu-usuario/finance-dashboard.git
+```
+
+2. Abra a pasta do projeto
+
+3. Execute o arquivo:
+
+```bash
+index.html
+```
+
+O sistema iniciará diretamente no navegador.
+
+---
+
+# 💾 Armazenamento Local
+
+As transações são armazenadas utilizando:
+
+```javascript
+localStorage
+```
+
+Os dados permanecem salvos mesmo após fechar o navegador.
+
+---
+
+# 🎯 Objetivo do Projeto
+
+Este projeto foi desenvolvido para prática de:
+
+* JavaScript moderno
+* Manipulação de DOM
+* Estruturação de dashboard
+* Visualização de dados
+* Organização de código front-end
+* Construção de portfólio profissional
+
+---
+
+# 📈 Melhorias Futuras
+
+* Sistema de autenticação
+* Integração com API
+* Banco de dados
+* Deploy online
+* Metas financeiras
+* Tema dark/light
+* Relatórios avançados
+
+---
+
+# 👨‍💻 Autor
+
+Jonathan Daniel
+
+---
