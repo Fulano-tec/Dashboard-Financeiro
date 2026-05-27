@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Financeiro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <h1>FinanControl</h1>
+    <p>Gestão financeira inteligente em tempo real</p>
+</header>
+
+<main>
+
+    <!-- UPDATE -->
+    <div class="update-info">
+        <p id="lastUpdate">Última atualização: --</p>
+    </div>
+
+    <!-- RESUMO PRINCIPAL -->
+    <section class="card resumo">
+
+        <div class="metric income-box">
+            <h2>Entradas</h2>
+            <p id="income">R$ 0,00</p>
+        </div>
+
+        <div class="metric expense-box">
+            <h2>Saídas</h2>
+            <p id="expense">R$ 0,00</p>
+        </div>
+
+        <div class="metric balance-box">
+            <h2>Saldo</h2>
+            <p id="saldo">R$ 0,00</p>
+        </div>
+    </section>
+
+    <!-- RESUMO MENSAL -->
+    <section class="card" id="monthlySummary">
+
+        <h2>Resumo Mensal</h2>
+
+        <p>Entradas no mês:
+            <strong id="monthlyIncome">R$ 0,00</strong>
+        </p>
+
+        <p>Despesas no mês:
+            <strong id="monthlyExpense">R$ 0,00</strong>
+        </p>
+
+        <p>Saldo do mês:
+            <strong id="monthlyBalance">R$ 0,00</strong>
+        </p>
+
+    </section>
+
+    <!-- FORMULÁRIO -->
+    <section class="card form">
+
+        <h2>Adicionar Transação</h2>
+
+        <input type="text" id="descricao" placeholder="Descrição">
+
+        <input type="number" id="valor" placeholder="Valor" min="1" step="0.01">
+
+        <select id="tipo">
+            <option value="income">Receita</option>
+            <option value="expense">Despesa</option>
+        </select>
+
+        <select id="categoria">
+            <option value="alimentacao">Alimentação</option>
+            <option value="transporte">Transporte</option>
+            <option value="lazer">Lazer</option>
+        </select>
+
+        <button id="submitBtn" onclick="addTransaction()">Adicionar Transação</button>
+    </section>
+
+    <!-- GRÁFICOS -->
+    <section class="card">
+        <h2>Visão Geral</h2>
+        <canvas id="chart"></canvas>
+    </section>
+
+    <section class="card">
+       <h2>Despesas por Categoria</h2>
+       <canvas id="categoryChart"></canvas>
+    </section>
+
+    <section class="card">
+        <h2>Receitas vs Despesas</h2>
+        <canvas id="barChart"></canvas>
+    </section>
+
+    <section class="card">
+        <h2>Histórico de Saldo</h2>
+        <canvas id="lineChart"></canvas>
+    </section>
+
+<section class="card">
+    <h2>Fluxo Mensal (Stacked)</h2>
+    <canvas id="stackedBarChart"></canvas>
+</section>
+
+    <section class="card">
+        <h2>Receitas vs Despesas por Mês</h2>
+        <canvas id="stackedBarChart"></canvas>
+    </section>
+
+    <section class="card">
+        <h2>Evolução Mensal</h2>
+        <canvas id="lineChart"></canvas>
+    </section>
+
+    <section class="card">
+        <h2>Evolução do Saldo</h2>
+        <canvas id="lineChart"></canvas>
+</section>
+
+
+    <!-- HISTÓRICO -->
+    <section class="card historico">
+
+        <h2>Histórico (<span id="transactionCount">0</span>)</h2>
+
+        <select id="filter" onchange="renderTransactions()">
+            <option value="all">Todas</option>
+            <option value="income">Receitas</option>
+            <option value="expense">Despesas</option>
+        </select>
+
+        <select id="monthFilter" onchange="renderTransactions()">
+            <option value="all">Todos os meses</option>
+            <option value="0">Janeiro</option>
+            <option value="1">Fevereiro</option>
+            <option value="2">Março</option>
+            <option value="3">Abril</option>
+            <option value="4">Maio</option>
+            <option value="5">Junho</option>
+            <option value="6">Julho</option>
+            <option value="7">Agosto</option>
+            <option value="8">Setembro</option>
+            <option value="9">Outubro</option>
+            <option value="10">Novembro</option>
+            <option value="11">Dezembro</option>
+        </select>
+
+        <ul id="lista-transacoes"></ul>
+
+        <button onclick="exportCSV()" style="background:#3b82f6; margin-top:10px;">
+            Exportar CSV
+        </button>
+
+        <button onclick="resetDashboard()" style="background:#ef4444; margin-top:10px;">
+            Resetar tudo
+        </button>
+
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
