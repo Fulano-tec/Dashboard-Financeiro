@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app-header"></div>
+
+  <section class="section">
+    <div class="section-title">
+      <h2>Dashboard Admin</h2>
+      <span>Visão geral com base nos dados locais do navegador</span>
+    </div>
+
+    <div class="admin-cards">
+      <div class="admin-card">
+        <h3>Produtos no catálogo</h3>
+        <p id="totalProducts">0</p>
+      </div>
+      <div class="admin-card">
+        <h3>Itens no carrinho</h3>
+        <p id="cartItems">0</p>
+      </div>
+      <div class="admin-card">
+        <h3>Pedidos salvos</h3>
+        <p id="ordersCount">0</p>
+      </div>
+      <div class="admin-card">
+        <h3>Receita (carrinho atual)</h3>
+        <p id="revenue">R$ 0</p>
+      </div>
+      <div class="admin-card">
+        <h3>Favoritos</h3>
+        <p id="wishlistCount">0</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px">
+      <h3 style="margin-bottom: 12px">Últimos pedidos</h3>
+      <div id="ordersList" class="cart-items"></div>
+    </div>
+  </section>
+
+  <div id="app-footer"></div>
+  <div class="toast" id="toast"></div>
+
+  <script src="products.js"></script>
+  <script src="common.js"></script>
+  <script>
+    mountLayout("");
+
+    document.getElementById("totalProducts").textContent = PRODUCTS.length;
+    document.getElementById("cartItems").textContent = getCartCount();
+    document.getElementById("revenue").textContent = formatPrice(getCartTotal());
+    document.getElementById("wishlistCount").textContent = getWishlist().length;
+
+    const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+    document.getElementById("ordersCount").textContent = orders.length;
+
+    const list = document.getElementById("ordersList");
+    if (!orders.length) {
+      list.innerHTML = `<div class="empty-state"><p>Nenhum pedido registrado ainda.</p></div>`;
+    } else {
+      list.innerHTML = orders
+        .slice()
+        .reverse()
+        .slice(0, 8)
+        .map(
+          (o) => `
+        <div class="cart-item" style="grid-template-columns:1fr auto">
+          <div class="cart-item-info">
+            <h3>Pedido #${String(o.id).slice(-6)}</h3>
+            <p style="color:var(--text-muted);font-size:0.85rem">
+              ${new Date(o.date).toLocaleString("pt-BR")} · ${o.items.length} produto(s)
+            </p>
+          </div>
+          <div class="price">${formatPrice(o.total)}</div>
+        </div>`
+        )
+        .join("");
+    }
+  </script>
+</body>
+</html>

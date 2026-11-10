@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobre — Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app-header"></div>
+
+  <section class="about-section">
+    <div class="section-title">
+      <h2>Sobre a plataforma</h2>
+      <span>Tecnologia, design e experiência moderna em um só lugar</span>
+    </div>
+
+    <div class="about-content">
+      <p>
+        Este marketplace foi construído como projeto de portfólio front-end,
+        com HTML, CSS e JavaScript puro — sem frameworks. O foco é simular
+        uma experiência real de e-commerce: navegação por categorias,
+        carrinho com quantidades, favoritos, checkout e tema claro/escuro.
+      </p>
+      <p>
+        Trabalhamos com três categorias principais: veículos, eletrônicos e
+        móveis. Todos os dados ficam no navegador (LocalStorage), o que
+        permite testar o fluxo completo de compra sem backend.
+      </p>
+      <p>
+        O design prioriza legibilidade, micro-interações e responsividade,
+        com um visual premium que funciona bem em desktop e mobile.
+      </p>
+    </div>
+  </section>
+
+  <div id="app-footer"></div>
+  <div class="toast" id="toast"></div>
+
+  <script src="products.js"></script>
+  <script src="common.js"></script>
+  <script>mountLayout("about");</script>
+</body>
+</html>

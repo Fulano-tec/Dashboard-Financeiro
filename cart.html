@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrinho — Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app-header"></div>
+
+  <div class="cart-layout">
+    <div>
+      <div class="section-title" style="margin-bottom: 20px">
+        <h2>Seu carrinho</h2>
+        <span id="cartCountLabel">Itens adicionados</span>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+    </div>
+
+    <aside class="cart-summary" id="cartSummary">
+      <h3>Resumo</h3>
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="subtotal">R$ 0</span>
+      </div>
+      <div class="summary-row">
+        <span>Frete estimado</span>
+        <span id="shipping">Grátis</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span id="total">R$ 0</span>
+      </div>
+      <a href="checkout.html" class="btn-primary" id="checkoutBtn">Finalizar compra</a>
+      <a href="index.html" class="btn btn-ghost" style="width:100%;margin-top:10px">Continuar comprando</a>
+    </aside>
+  </div>
+
+  <div id="app-footer"></div>
+  <div class="toast" id="toast"></div>
+
+  <script src="products.js"></script>
+  <script src="common.js"></script>
+  <script>
+    mountLayout("");
+
+    const cartItems = document.getElementById("cartItems");
+    const subtotalEl = document.getElementById("subtotal");
+    const totalEl = document.getElementById("total");
+    const countLabel = document.getElementById("cartCountLabel");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    const summary = document.getElementById("cartSummary");
+
+    function renderCart() {
+      const cart = getCart();
+      const count = getCartCount();
+      countLabel.textContent = count === 0 ? "Carrinho vazio" : `${count} item(ns)`;
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = `
+          <div class="empty-state">
+            <div class="emoji">🛒</div>
+            <h2>Seu carrinho está vazio</h2>
+            <p>Explore nossos produtos e adicione algo especial.</p>
+            <a href="index.html" class="btn-primary" style="margin-top:16px;display:inline-flex">Ir às compras</a>
+          </div>`;
+        summary.style.display = "none";
+        return;
+      }
+
+      summary.style.display = "block";
+
+      cartItems.innerHTML = cart
+        .map(
+          (item) => `
+        <div class="cart-item" data-id="${item.id}">
+          <img src="${item.image}" alt="${item.name}" />
+          <div class="cart-item-info">
+            <h3>${item.name}</h3>
+            <div class="price">${formatPrice(item.price)}</div>
+            <div class="qty-controls">
+              <button class="qty-minus" data-id="${item.id}">−</button>
+              <span>${item.qty || 1}</span>
+              <button class="qty-plus" data-id="${item.id}">+</button>
+            </div>
+          </div>
+          <div class="cart-item-actions">
+            <button class="btn btn-sm btn-danger remove-btn" data-id="${item.id}">Remover</button>
+          </div>
+        </div>`
+        )
+        .join("");
+
+      const total = getCartTotal();
+      subtotalEl.textContent = formatPrice(total);
+      totalEl.textContent = formatPrice(total);
+    }
+
+    cartItems.addEventListener("click", (e) => {
+      const minus = e.target.closest(".qty-minus");
+      const plus = e.target.closest(".qty-plus");
+      const remove = e.target.closest(".remove-btn");
+
+      if (minus) {
+        const id = Number(minus.dataset.id);
+        const item = getCart().find((i) => i.id === id);
+        if (item) updateQty(id, (item.qty || 1) - 1);
+        renderCart();
+      }
+      if (plus) {
+        const id = Number(plus.dataset.id);
+        const item = getCart().find((i) => i.id === id);
+        if (item) updateQty(id, (item.qty || 1) + 1);
+        renderCart();
+      }
+      if (remove) {
+        removeFromCart(Number(remove.dataset.id));
+        showToast("Item removido");
+        renderCart();
+      }
+    });
+
+    checkoutBtn.addEventListener("click", (e) => {
+      if (getCart().length === 0) {
+        e.preventDefault();
+        showToast("Carrinho vazio", "error");
+      }
+    });
+
+    window.addEventListener("cartUpdated", renderCart);
+    renderCart();
+  </script>
+</body>
+</html>

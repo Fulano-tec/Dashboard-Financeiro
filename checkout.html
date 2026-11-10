@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app-header"></div>
+
+  <div class="auth-page">
+    <div class="auth-card" style="max-width:480px">
+      <h2>Finalizar compra</h2>
+      <p class="subtitle">Preencha os dados para confirmar o pedido</p>
+
+      <form id="checkoutForm">
+        <div class="form-group">
+          <label>Nome completo</label>
+          <input type="text" name="name" placeholder="Seu nome" required />
+        </div>
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" name="email" placeholder="voce@email.com" required />
+        </div>
+        <div class="form-group">
+          <label>Endereço de entrega</label>
+          <input type="text" name="address" placeholder="Rua, número, bairro, cidade" required />
+        </div>
+        <div class="form-group">
+          <label>Número do cartão (simulado)</label>
+          <input type="text" name="card" placeholder="ACCT-000003" maxlength="19" required />
+        </div>
+
+        <div class="summary-row total" style="margin:16px 0 8px;padding-top:12px;border-top:1px solid var(--border)">
+          <span>Total do pedido</span>
+          <span id="orderTotal">R$ 0</span>
+        </div>
+
+        <button type="submit" class="btn-primary" id="confirmBtn">Confirmar pedido</button>
+      </form>
+
+      <a href="cart.html" class="auth-link">← Voltar ao carrinho</a>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+  <div class="toast" id="toast"></div>
+
+  <script src="products.js"></script>
+  <script src="common.js"></script>
+  <script>
+    mountLayout("");
+
+    const totalEl = document.getElementById("orderTotal");
+    totalEl.textContent = formatPrice(getCartTotal());
+
+    if (getCart().length === 0) {
+      showToast("Carrinho vazio — redirecionando...", "error");
+      setTimeout(() => (window.location.href = "cart.html"), 1500);
+    }
+
+    document.getElementById("checkoutForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const cart = getCart();
+      if (!cart.length) {
+        showToast("Carrinho vazio!", "error");
+        return;
+      }
+
+      const total = getCartTotal();
+      const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+      orders.push({
+        id: Date.now(),
+        items: cart,
+        total,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem("orders", JSON.stringify(orders));
+      localStorage.removeItem("cart");
+      window.dispatchEvent(new CustomEvent("cartUpdated"));
+
+      showToast("Pedido realizado com sucesso!");
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
